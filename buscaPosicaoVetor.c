@@ -48,14 +48,16 @@ int buscaPosicao(int v[], int valor)
         if (valor == v[i])
         {
 
-            return i;    
+            return i;   
+             
         }
         else
         {
-            return -1;
+            i++;
         }
-        i++;
-      }  
+        
+      }  return -1;
+
   }
 
 }
