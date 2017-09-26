@@ -11,7 +11,7 @@ int main()
     
     maximo = maximoValor(vet, SIZE);
 
-    printf("Maximo Valor = %d\n",maximo);
+    printf("Max Valor = %d\n",maximo);
 
     return 0;
 
