@@ -22,7 +22,7 @@ int main()
     }
 
     printf("Digite o Valor que Deseja Buscar: \n");
-    scanf("%d"&vl);
+    scanf("%d",&vl);
 
     pos = buscaPosicao(vet, vl);
 
