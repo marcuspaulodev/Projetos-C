@@ -1,0 +1,17 @@
+			PVD TESTE
+		PDV TESTE CUPONS LTDA
+R.CORONEU GURGEL S/N, CENTRO MOSSORO/RN 
+CNPJ: 12.123.123/0001-12
+IE:11.123.123-1
+-----------------------------------------------------
+			CUPOM FISCAL 
+CODIGO	DESCRICAO		PRECO	QUANT.	TOTAL
+-----------------------------------------------------
+1	Feijao      		4.00 X 2	8.00
+-----------------------------------------------------
+TOTAL DE ITENS				1
+SUBTOTAL R$				8.00
+-----------------------------------------------------
+FORMA DE PAGAMENTO...			VALOR PAGO
+DINHEIRO				8.00
+-----------------------------------------------------
