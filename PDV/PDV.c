@@ -22,6 +22,7 @@ void cadastrarProduto(char* desc, float price, tprodutos* prod);
 int buscarUltimoId(tprodutos* prod);
 void removerProduto(tprodutos* prod, int id);
 tprodutos* buscarAnterior(tprodutos* prod, int id);
+void alterarProduto(tprodutos* prod ,int id,char* Nome,float Preco);
 
 tprodutos* inicializarListaComCabeca()
 {
@@ -134,6 +135,25 @@ int main(){
 							printf("DIGITE O CODIGO DO PRODUTO QUE DESEJA EXCLUIR: ");
 							scanf("%d",&rmID);
 							removerProduto(vet,rmID);
+						}
+						case 'a':
+						case 'A':
+						{
+							int altID;
+							char novoNome[50];
+							float novoPreco;
+
+							printf("DIGITE O CODIGO DO PRODUTO QUE DESEJA ALTERAR: ");
+							scanf("%d",&altID);
+							
+							printf("Digite o novo nome do Produto: \n");
+							scanf("%s",&novoNome);
+							fflush(stdin);
+
+							printf("Digite o novo Preco do produto: \n");
+							scanf("%f",&novoPreco);
+							
+							alterarProduto(vet,altID,novoNome,novoPreco);
 						}
 					}
 				}
@@ -573,16 +593,12 @@ void removerProduto(tprodutos* prod, int id)
 	}
 
 	fclose(pArquivo2);
-
-	printf("Abre arquivo\n");
 	
 	pArquivo= fopen("arquivo.csv", "w");//Leitura o arquivo 
 	if (pArquivo == NULL){
 		printf("Erro na abertura!!!");
 		//return 1;
 	}	
-
-	printf("Arquivo aberto\n");
 
 	while(i <= cont)
 	{
@@ -598,4 +614,54 @@ void removerProduto(tprodutos* prod, int id)
 	i++;
 	}	
 	fclose(pArquivo);
+}
+void alterarProduto(tprodutos* prod ,int id,char* Nome,float Preco)
+{
+	
+	int i,cont = 0;	
+
+	char produto[50];
+
+	FILE* pArquivo;	
+	FILE* pArquivo2;
+
+	pArquivo2 = fopen("arquivo.csv","r");
+	if (pArquivo2 == NULL){
+		printf("Erro na abertura!!!");
+		//return 1;
+	}		
+
+	while(fscanf(pArquivo2, "%[^;];\n", &produto)!=EOF)
+	{
+		cont++;		
+	}
+
+	fclose(pArquivo2);
+	
+	pArquivo= fopen("arquivo.csv", "w");//Leitura o arquivo 
+	if (pArquivo == NULL){
+		printf("Erro na abertura!!!");
+		//return 1;
+	}	
+
+	while(i <= cont)
+	{
+		if((i==id) && (prod[i].preco !=0))
+		{
+	
+			fprintf(pArquivo, "%s;%f;%d\n", Nome, Preco, id);
+		
+		}
+		else
+		{
+			if(prod[i].preco !=0)
+			{
+				fprintf(pArquivo, "%s;%f;%d\n", &prod[i].nome, prod[i].preco, prod[i].id);					
+			
+			}
+		}
+	i++;
+	}	
+	fclose(pArquivo);				
+
 }
