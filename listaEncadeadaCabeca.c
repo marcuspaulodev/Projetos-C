@@ -11,6 +11,7 @@ typedef struct sElemento
 }tElemento;
 
 tElemento* inicializarListaCabeca();
+void percorrer(tELemento* lista);
 
 int main()
 {
@@ -88,4 +89,19 @@ tElemento* inicializarListaCabeca()
 
     return lista;
 
+}
+void percorrer(tELemento* lista)
+{
+    tElemento* tmp;
+
+    tmp = lista -> pProx;
+
+    while(tmp->pProx != NULL)
+    {
+        printf("id = %d",tmp->id);
+        printf("nome = %s", tmp->nome);
+        tmp = tmp->pProx;
+    }
+
+    
 }
