@@ -10,7 +10,7 @@ typedef struct sprodutos{
 	struct sprodutos* pProx;
 }tprodutos;
 
-//Funções---------------------------------------------------------------------------------------------------------------
+//Funï¿½ï¿½es---------------------------------------------------------------------------------------------------------------
 float cabecalho(tprodutos vet[]);
 void dinheiro(float din);
 void cartao(float car);
@@ -21,9 +21,15 @@ void formaPag();
 tprodutos* inicializarListaComCabeca();
 void inserirFim(tprodutos* pInicio, tprodutos* aux);
 void buscar(tprodutos* pInicio, int id);
+void cadastrarProduto(char* desc, float price, tprodutos* prod);
+void removerProduto(tprodutos* prod, int id);
+void alterarProduto(tprodutos* prod ,int id,char* Nome,float Preco);
+tprodutos* buscarAnterior(tprodutos* prod, int id);
+int buscarUltimoId(tprodutos* prod);
 
 
 int main(){
+	printf("1");
 	//Valiaveis-------------------------------------------------------------------------------------------------------------
 	int pr = 50;
 	int i=0;
@@ -31,9 +37,10 @@ int main(){
 	FILE * pArquivo;
  	tprodutos *vet= (tprodutos*) calloc(pr, sizeof(tprodutos));
  	tprodutos* pInicio = inicializarListaComCabeca();
- 	
+ 	printf("2");
 	char op;
-	//ABRE O CUPOM .TXT E LÊ O BANCO DE DADOS EM CSV--------------------------------------------------------------------------------------------
+	char opcadastro;
+	//ABRE O CUPOM .TXT E Lï¿½ O BANCO DE DADOS EM CSV--------------------------------------------------------------------------------------------
 	FILE * Venda = fopen ("Venda.txt", "a");
 				if (Venda == NULL){
 					printf ("Erro na Emissao!!!");
@@ -49,7 +56,7 @@ int main(){
 		printf("Erro na abertura!!!");
 		return 1;
 	}	
-	
+	printf("3");
 	while(fscanf(pArquivo, "%[^;];%f\n", &produto, &valor)!=EOF){
 	
 		strcpy(aux.nome,produto);
@@ -59,20 +66,20 @@ int main(){
 		inserirFim(pInicio, &aux);
 		cont++;
 	}
-	
+	printf("4");
 	fclose(pArquivo);
 	
 	//FINALIZA A LEITURA DO BANCO DE DADOS---------------------------------------------------------------------------
 	
 	
-	
+	printf("5");
 
-	//INICIALIZAÇÃO DO LAÇO DO MENU DO SISTEMA---------------------------------------------------------------------------
+	//INICIALIZAï¿½ï¿½O DO LAï¿½O DO MENU DO SISTEMA---------------------------------------------------------------------------
 	do{
 	menu();
 	scanf("%c", &op);
 		switch(op){
-			case 'c':;
+			case 'c':
 			case 'C':{		
 		
 				int con, cons;	
@@ -87,11 +94,86 @@ int main(){
 						}
 						
 		
-				}while(con!=-1);
-				fflush (stdin);
-				break;
 					}
-			case 'v':;
+					
+					while(con!=-1);
+					fflush (stdin);
+					break;
+
+					}
+			case 'p':
+			case 'P':{
+						do
+						{
+							printf("*****CADASTRO DE PRODUTOS******\n\n");
+							printf("I - INSERIR\n");
+							printf("A - ALTERAR\n");
+							printf("E - EXCLUIR\n");
+							printf("S - VOLTAR\n");
+							printf("DIGITE A OPCAO DESEJADA: ");
+							scanf("%c",&opcadastro);
+							fflush(stdin);
+							switch(opcadastro)	
+							{
+								case 'i':
+								case 'I':
+								{
+									char descricao[50];
+									float preco;
+									char con;
+									do
+									{
+		
+										printf("INFORME A DESCRICAO DO PRODUTO: \n");
+										scanf("%s",&descricao);
+										fflush(stdin);
+										printf("INFORME O PRECO DO PODUTO: \n");
+										scanf("%f", &preco);			
+										fflush(stdin);												
+										cadastrarProduto(descricao,preco,pInicio);
+										printf("INSERIR UM NOVO PRODUTO?\n");
+										printf("s-SIM\n");
+										printf("n-NAO\n");
+										scanf("%c",&con);
+									}
+									while(con!='n');
+									fflush(stdin);
+									break;
+								}
+								case 'e':
+								case 'E':
+								{	
+									int rmID;
+									printf("DIGITE O CODIGO DO PRODUTO QUE DESEJA EXCLUIR: ");
+									scanf("%d",&rmID);
+									removerProduto(pInicio,rmID);
+								}
+								case 'a':
+								case 'A':
+								{
+									int altID;
+									char novoNome[50];
+									float novoPreco;
+		
+									printf("DIGITE O CODIGO DO PRODUTO QUE DESEJA ALTERAR: ");
+									scanf("%d",&altID);
+									
+									printf("Digite o novo nome do Produto: \n");
+									scanf("%s",&novoNome);
+									fflush(stdin);
+		
+									printf("Digite o novo Preco do produto: \n");
+									scanf("%f",&novoPreco);
+									
+									alterarProduto(pInicio,altID,novoNome,novoPreco);
+								}
+							}						
+						}
+						while(opcadastro != 's');
+						fflush(stdin);
+						break;
+					 }
+			case 'v':
 			case 'V':{
 				
 						float total=cabecalho(vet);
@@ -185,7 +267,7 @@ int main(){
 						break;
 					
 					default:
-						printf("Opção errada!!!\n\n");
+						printf("Opï¿½ï¿½o errada!!!\n\n");
 						fflush(stdin);
 						break;
 				}
@@ -198,7 +280,7 @@ int main(){
 }
 
 
-//FUNÇÕES PRA USO DO MAIN-----------------------------------------------------------------------------------------------------------
+//FUNï¿½ï¿½ES PRA USO DO MAIN-----------------------------------------------------------------------------------------------------------
 void menu(){
 	printf("*****MENU*****\n\n");
 						printf("C-CONSULTA PRODUTOS\n");
@@ -368,7 +450,7 @@ void formaPag(){
 
 tprodutos* inicializarListaComCabeca()
 {
-	// Aloca espaço para elemento CABEÇA
+	// Aloca espaï¿½o para elemento CABEï¿½A
     tprodutos* pInicio = (tprodutos*) calloc(1, sizeof(tprodutos));
 	// Inicializa campos do elemento
 	strcpy(pInicio->nome,"");
@@ -381,7 +463,7 @@ tprodutos* inicializarListaComCabeca()
 
 void inserirFim(tprodutos* pInicio, tprodutos* aux)
 {
-	// Aloca espaço para elemento NOVO
+	// Aloca espaï¿½o para elemento NOVO
 	tprodutos* pNovo = (tprodutos*) calloc (1,sizeof(tprodutos));
 	// Inicializa campos do elemento
 	strcpy(pNovo->nome,aux->nome);
@@ -389,7 +471,7 @@ void inserirFim(tprodutos* pInicio, tprodutos* aux)
     pNovo->preco=aux->preco;
     pNovo->pProx = NULL; 
 
-    // Atualiza elemento CABEÇA (incrementa o próximo valor do ID)
+    // Atualiza elemento CABEï¿½A (incrementa o prï¿½ximo valor do ID)
     pInicio->id = pInicio->id + 1;
 
 	// Percorre ate o ultimo elemento
@@ -405,10 +487,10 @@ void inserirFim(tprodutos* pInicio, tprodutos* aux)
 
 void buscar(tprodutos* pInicio, int id)
 {
-	// Inicializações
-    tprodutos* p = pInicio->pProx; 	// Ponteiro temporario. Pulo a cabeça da lista. 
+	// Inicializaï¿½ï¿½es
+    tprodutos* p = pInicio->pProx; 	// Ponteiro temporario. Pulo a cabeï¿½a da lista. 
 
-    while (p != NULL) 	// verifica se já chegou no final da lista
+    while (p != NULL) 	// verifica se jï¿½ chegou no final da lista
     {
         if (p->id == id)
         {
@@ -421,3 +503,190 @@ void buscar(tprodutos* pInicio, int id)
 }
 
 
+void cadastrarProduto(char* desc, float price, tprodutos* prod)
+{
+	int lastId;
+	FILE* pArquivo;
+	tprodutos* newprod = (tprodutos*) calloc(1,sizeof(tprodutos));	
+	
+	lastId = buscarUltimoId(prod);
+	
+	strcpy(newprod->nome, desc);
+	newprod->id = lastId;
+	newprod->preco = price;
+	
+	pArquivo= fopen("arquivo.csv", "a");//Leitura o arquivo 
+	if (pArquivo == NULL){
+		printf("Erro na abertura!!!");
+		//return 1;
+	}	
+	
+	fprintf(pArquivo, "%s;%f;\n", &newprod->nome, newprod->preco);
+	fclose(pArquivo);	
+	
+	prod->id = prod->id+1;
+	
+	tprodutos* p = prod;
+
+    while (p->pProx != NULL) {
+        p = p->pProx;
+    }
+    
+    p->pProx = newprod;
+	
+}
+void removerProduto(tprodutos* prod, int id)
+{
+	char produto[50];
+
+	int i,j,cont =0;
+
+	tprodutos* rmprod = (tprodutos*) calloc(1,sizeof(tprodutos)) ;
+
+	FILE* pArquivo;	
+	FILE* pArquivo2;
+
+	pArquivo2 = fopen("arquivo.csv","r");
+	if (pArquivo2 == NULL){
+		printf("Erro na abertura!!!");
+		//return 1;
+	}		
+
+	while(fscanf(pArquivo2, "%[^;];\n", &produto)!=EOF)
+	{
+		cont++;		
+		printf("%d\n",cont);
+	}
+
+	fclose(pArquivo2);
+	
+	pArquivo= fopen("arquivo.csv", "w");//Leitura o arquivo 
+	if (pArquivo == NULL){
+		printf("Erro na abertura!!!");
+		//return 1;
+	}	
+
+	rmprod = prod->pProx;
+
+	while(rmprod->pProx != NULL)
+	{
+		if(rmprod->id!=id)
+		{
+			if(rmprod->preco !=0)
+			{
+				fprintf(pArquivo, "%s;%f;\n", &rmprod->nome, rmprod->preco);					
+			
+			}
+		
+		}
+	rmprod = rmprod->pProx;
+	}	
+	fclose(pArquivo);
+}
+void alterarProduto(tprodutos* prod ,int id,char* Nome,float Preco)
+{
+	
+	int i,cont = 0;	
+
+	char produto[50];
+
+	FILE* pArquivo;	
+	FILE* pArquivo2;
+
+	tprodutos* altProd = (tprodutos*) calloc(1,sizeof(tprodutos));
+
+	pArquivo2 = fopen("arquivo.csv","r");
+	if (pArquivo2 == NULL){
+		printf("Erro na abertura!!!");
+		//return 1;
+	}		
+
+	while(fscanf(pArquivo2, "%[^;];\n", &produto)!=EOF)
+	{
+		cont++;		
+	}
+
+	fclose(pArquivo2);
+	
+	pArquivo= fopen("arquivo.csv", "w");//Leitura o arquivo 
+	if (pArquivo == NULL){
+		printf("Erro na abertura!!!");
+		//return 1;
+	}	
+
+	altProd = prod->pProx;
+
+	while(altProd->pProx !=NULL)
+	{
+		if((altProd->id==id) && (altProd->preco !=0))
+		{
+	
+			fprintf(pArquivo, "%s;%f;\n", Nome, Preco);
+		
+		}
+		else
+		{
+			if(altProd->preco !=0)
+			{
+				fprintf(pArquivo, "%s;%f;\n", &altProd->nome, altProd->preco);					
+			
+			}
+		}
+	altProd = altProd->pProx;
+	}	
+	fclose(pArquivo);				
+
+}
+int buscarUltimoId(tprodutos* prod)
+{
+	int i=0;
+	tprodutos* p = prod->pProx;
+
+	if(p == NULL)
+	{
+		return prod->id;
+	}
+		
+	else
+	{
+	
+		while (p != NULL)
+		{
+			//printf("Entrou laco\n");
+			if(p->pProx == NULL)
+			{
+			//	printf("%d",i);
+				return p->id;
+			}
+			p = p->pProx;		
+		}
+	}
+}
+
+tprodutos* buscarAnterior(tprodutos* prod, int id)
+{
+	// Inicializaï¿½ï¿½es
+    tprodutos* p 	  = prod; 	// Ponteiro temporario. Nï¿½O ignoro o elemento inicial!
+	tprodutos* result = NULL;
+
+	if(prod->pProx == NULL) 	// Verifica se lista ï¿½ vazia
+	{
+		result = NULL;
+	}	
+	else
+	{
+        result = prod;
+
+		while (p != NULL)
+    	{
+	        if (p->id == id) {
+	           return result;
+	        }
+
+			result = p;		// Armazena o ponteiro anterior
+        	p = p->pProx;
+    	}
+	}
+
+    return NULL;
+}
