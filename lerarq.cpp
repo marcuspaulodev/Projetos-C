@@ -6,6 +6,10 @@ int main()
 {
     ifstream fin;
     double num;
+    int qtLidos, test;
+
+    cout<<"Digite um Numero para Verificar se é Valido: "<<endl;
+    cin>>test;
 
     fin.open("conjunto.txt");
     if(!fin.is_open())
@@ -14,26 +18,34 @@ int main()
         return 0;
     }
 
-    fin>>wt;
+    fin>>num;
+    qtLidos = 0;
 
-    while(fin.good)
+    while(fin.good())
     {
-        cout<<wt<<endl;
-        fin >> wt;
+        if(test == num)
+        {
+            cout<<"Numero "<<num<<"Encontrado "<<endl;
+            break;
+        }
+        cout<<num<<endl;
+        fin >> num;
+        ++qtLidos;
     }
     if(fin.eof())
     {
         cout<<"Fim do Arquivo"<<endl;
+        cout<<"Total de Numeros Lidos: "<<qtLidos<<endl;
     }
     else
     {
-        if(fin.fail)
+        if(fin.fail())
         {
             cout<<"Tipo incorreto";
         }
         else
         {
-            cout<<"Erro não catalogado"
+            cout<<"Erro não catalogado";
         }
     }
     fin.close();
